@@ -102,14 +102,14 @@ GLfloat normals[]  = { 0, 0, 1,   0, 0, 1,   0, 0, 1,   0, 0, 1,   // v0,v1,v2,v
                         0, 0,-1,   0, 0,-1,   0, 0,-1,   0, 0,-1 }; // v4,v7,v6,v5 (back)
 
 // color array
-GLfloat colors[]   = { 1, 1, 1,   1, 1, 0,   1, 0, 0,   1, 0, 1,   // v0,v1,v2,v3 (front)
-                        1, 1, 1,   1, 0, 1,   0, 0, 1,   0, 1, 1,   // v0,v3,v4,v5 (right)
-                        1, 1, 1,   0, 1, 1,   0, 1, 0,   1, 1, 0,   // v0,v5,v6,v1 (top)
-                        1, 1, 0,   0, 1, 0,   0, 0, 0,   1, 0, 0,   // v1,v6,v7,v2 (left)
-                        0, 0, 0,   0, 0, 1,   1, 0, 1,   1, 0, 0,   // v7,v4,v3,v2 (bottom)
-                        0, 0, 1,   0, 0, 0,   0, 1, 0,   0, 1, 1 }; // v4,v7,v6,v5 (back)
+GLfloat colors[]   = { 1, 1, 1,   1, 1, 1,   1, 1, 1,   1, 1, 1,   // v0,v1,v2,v3 (front)
+                        0, 0, 1,   0, 0, 1,   0, 0, 1,   0, 0, 1,   // v0,v3,v4,v5 (right)
+                        1, 0, 0,   1, 0, 0,   1, 0, 0,   1, 0, 0,   // v0,v5,v6,v1 (top)
+                        0, 1, 0,   0, 1, 0,   0, 1, 0,   0, 1, 0,   // v1,v6,v7,v2 (left)
+                        1, 1, 0,   1, 1, 0,   1, 1, 0,   1, 1, 0,   // v7,v4,v3,v2 (bottom)
+                        0, 1, 1,   0, 1, 1,   0, 1, 1,   0, 1, 1 }; // v4,v7,v6,v5 (back)
 
-// index array of vertex array for glDrawElements() & glDrawRangeElement()
+// index array of vertex array for glDrawElements() 
 GLubyte indices[]  = { 0, 1, 2,   2, 3, 0,      // front
                        4, 5, 6,   6, 7, 4,      // right
                        8, 9,10,  10,11, 8,      // top
@@ -213,7 +213,7 @@ int initGLUT(int argc, char **argv)
 ///////////////////////////////////////////////////////////////////////////////
 void initGL()
 {
-    glShadeModel(GL_SMOOTH);                    // shading mathod: GL_SMOOTH or GL_FLAT
+    glShadeModel(GL_FLAT);                    // shading mathod: GL_SMOOTH or GL_FLAT
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);      // 4-byte pixel alignment
 
     // enable /disable features
