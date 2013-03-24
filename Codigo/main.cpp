@@ -162,7 +162,6 @@ int main(int argc, char **argv)
     initGLUT(argc, argv);
     initGL();
 
-    Cubo cubo;
     CuboMagico cubomagico;
     cubomagico.setupDrawCallback();
 
