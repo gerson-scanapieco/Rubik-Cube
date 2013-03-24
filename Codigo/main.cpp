@@ -46,7 +46,6 @@ void initLights();
 void setCamera(float posX, float posY, float posZ, float targetX, float targetY, float targetZ);
 void drawString(const char *str, int x, int y, float color[4], void *font);
 void drawString3D(const char *str, float pos[3], float color[4], void *font);
-void toOrtho();
 void toPerspective();
 void draw();
 
@@ -163,6 +162,7 @@ int main(int argc, char **argv)
     initGL();
 
     CuboMagico cubomagico;
+    cubomagico.set_groups();
     cubomagico.setupDrawCallback();
 
     // check max of elements vertices and elements indices that your video card supports
@@ -355,7 +355,7 @@ void setCamera(float posX, float posY, float posZ, float targetX, float targetY,
     gluLookAt(posX, posY, posZ, targetX, targetY, targetZ, 0, 1, 0); // eye(x,y,z), focal(x,y,z), up(x,y,z)
 }
 
-/*
+
 ///////////////////////////////////////////////////////////////////////////////
 // display info messages
 ///////////////////////////////////////////////////////////////////////////////
@@ -394,28 +394,6 @@ void showInfo()
     glMatrixMode(GL_MODELVIEW);      // switch to modelview matrix
     glPopMatrix();                   // restore to previous modelview matrix
 }
-*/
-
-
-///////////////////////////////////////////////////////////////////////////////
-// set projection matrix as orthogonal
-///////////////////////////////////////////////////////////////////////////////
-void toOrtho()
-{
-    // set viewport to be the entire window
-    glViewport(0, 0, (GLsizei)screenWidth, (GLsizei)screenHeight);
-
-    // set orthographic viewing frustum
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, screenWidth, 0, screenHeight, -1, 1);
-
-    // switch to modelview matrix in order to set scene
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // set the projection matrix as perspective
@@ -437,12 +415,6 @@ void toPerspective()
 
 
 
-
-
-
-
-
-
 //=============================================================================
 // CALLBACKS
 //=============================================================================
@@ -460,14 +432,14 @@ void displayCB()
     glRotatef(cameraAngleX, 1, 0, 0);   // pitch
     glRotatef(cameraAngleY, 0, 1, 0);   // heading
 
-    //draw();        // draw the cube
+    //Seta o metodo do cubo como renderizador
     CuboMagico::drawCallback();
 
     // print 2D text
     float pos[4] = {-4.0f,3.5f,0,1};
     float color[4] = {1,1,1,1};
    
-    //showInfo();     // print max range of glDrawRangeElements
+    showInfo();     // print max range of glDrawRangeElements
 
     glPopMatrix();
 
