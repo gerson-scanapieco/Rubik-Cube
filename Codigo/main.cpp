@@ -72,6 +72,7 @@ int drawMode;
 int maxVertices;
 int maxIndices;
 
+/*
 // cube ///////////////////////////////////////////////////////////////////////
 //    v6----- v5
 //   /|      /|
@@ -149,6 +150,7 @@ void draw()
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
@@ -161,7 +163,8 @@ int main(int argc, char **argv)
     initGL();
 
     Cubo cubo;
-    CuboMagico cubomag;
+    CuboMagico cubomagico;
+    cubomagico.setupDrawCallback();
 
     // check max of elements vertices and elements indices that your video card supports
     // Use these values to determine the range of glDrawRangeElements()
@@ -458,7 +461,8 @@ void displayCB()
     glRotatef(cameraAngleX, 1, 0, 0);   // pitch
     glRotatef(cameraAngleY, 0, 1, 0);   // heading
 
-    draw();        // draw the cube
+    //draw();        // draw the cube
+    CuboMagico::drawCallback();
 
     // print 2D text
     float pos[4] = {-4.0f,3.5f,0,1};
