@@ -23,6 +23,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include "cubo-magico.hpp"
 using std::stringstream;
 using std::cout;
 using std::endl;
@@ -159,6 +160,8 @@ int main(int argc, char **argv)
     initGLUT(argc, argv);
     initGL();
 
+    Cubo cubo;
+    CuboMagico cubomag;
 
     // check max of elements vertices and elements indices that your video card supports
     // Use these values to determine the range of glDrawRangeElements()
@@ -350,6 +353,7 @@ void setCamera(float posX, float posY, float posZ, float targetX, float targetY,
     gluLookAt(posX, posY, posZ, targetX, targetY, targetZ, 0, 1, 0); // eye(x,y,z), focal(x,y,z), up(x,y,z)
 }
 
+/*
 ///////////////////////////////////////////////////////////////////////////////
 // display info messages
 ///////////////////////////////////////////////////////////////////////////////
@@ -388,7 +392,7 @@ void showInfo()
     glMatrixMode(GL_MODELVIEW);      // switch to modelview matrix
     glPopMatrix();                   // restore to previous modelview matrix
 }
-
+*/
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -460,7 +464,7 @@ void displayCB()
     float pos[4] = {-4.0f,3.5f,0,1};
     float color[4] = {1,1,1,1};
    
-    showInfo();     // print max range of glDrawRangeElements
+    //showInfo();     // print max range of glDrawRangeElements
 
     glPopMatrix();
 
