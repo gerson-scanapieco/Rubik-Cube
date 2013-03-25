@@ -145,7 +145,7 @@ void initGL()
     glEnable(GL_CULL_FACE);
 
      // track material ambient and diffuse from surface color, call it before glEnable(GL_COLOR_MATERIAL)
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glEnable(GL_COLOR_MATERIAL);
 
     glClearColor(0, 0, 0, 0);                   // background color
@@ -400,10 +400,10 @@ void keyboardCB(unsigned char key, int x, int y)
         break;
 
     case 43: // tecla +
-        CuboMagico::espacamento+=0.5;
+        CuboMagico::espacamento+=0.15;
         break;
     case 45: //tecla -
-        CuboMagico::espacamento-=0.5;
+        CuboMagico::espacamento-=0.15;
 
     default:
         ;
