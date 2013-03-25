@@ -408,6 +408,12 @@ void keyboardCB(unsigned char key, int x, int y)
         }
         break;
 
+    case 43: // tecla +
+        CuboMagico::espacamento+=0.5;
+        break;
+    case 45: //tecla -
+        CuboMagico::espacamento-=0.5;
+
     default:
         ;
     }

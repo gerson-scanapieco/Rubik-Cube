@@ -2,6 +2,7 @@
 
  //inicializa variavel estatica
  CuboMagico* CuboMagico::currentInstance = NULL;
+ float CuboMagico::espacamento = 3.5;
 
  //vertices array
  GLfloat default_vertices[] = {1, 1, 1,  -1, 1, 1,  -1,-1, 1,   1,-1, 1,   // v0,v1,v2,v3 (front)
@@ -61,7 +62,6 @@ void CuboMagico::set_groups(){
 }
 
 CuboMagico::CuboMagico(){
-	espacamento = 3.5;
 	for(int i=0; i<27;i++){
 		this->cubos[i].init();
 	}

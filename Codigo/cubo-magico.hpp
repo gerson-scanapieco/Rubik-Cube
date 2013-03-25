@@ -26,7 +26,7 @@ class CuboMagico{
 
 public:
 
-	float espacamento;
+	static float espacamento;
 	static CuboMagico *currentInstance;
 	Cubo cubos[27];
 
