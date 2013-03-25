@@ -288,18 +288,9 @@ void showInfo()
     float color[4] = {1, 1, 1, 1};
 
     stringstream ss;
-    ss << std::fixed << std::setprecision(3);
-
-    ss << "Max Elements Vertices: " << maxVertices << ends;
+    ss << "Aperte \"+\" para aumentar o espacamento ou \"-\" para diminuir" << ends;
     drawString(ss.str().c_str(), 1, screenHeight-TEXT_HEIGHT, color, font);
     ss.str("");
-
-    ss << "Max Elements Indices: " << maxIndices << ends;
-    drawString(ss.str().c_str(), 1, screenHeight-(2*TEXT_HEIGHT), color, font);
-    ss.str("");
-
-    // unset floating format
-    ss << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield);
 
     // restore projection matrix
     glPopMatrix();                   // restore to previous projection matrix

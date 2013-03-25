@@ -2,7 +2,7 @@
 
  //inicializa variavel estatica
  CuboMagico* CuboMagico::currentInstance = NULL;
- float CuboMagico::espacamento = 3.5;
+ float CuboMagico::espacamento = 2.5;
 
  //vertices array
  GLfloat default_vertices[] = {1, 1, 1,  -1, 1, 1,  -1,-1, 1,   1,-1, 1,   // v0,v1,v2,v3 (front)
