@@ -80,7 +80,7 @@ void CuboMagico::draw(){
 
 	  glPushMatrix();
 	  glTranslatef(currentInstance->cubos[j].grp_x*espacamento, currentInstance->cubos[j].grp_y*espacamento, 
-	  						  currentInstance->cubos[j].grp_z*espacamento); 
+	  						 currentInstance->cubos[j].grp_z*espacamento); 
 	  glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, currentInstance->cubos[j].indices);
 	  glPopMatrix();
 
