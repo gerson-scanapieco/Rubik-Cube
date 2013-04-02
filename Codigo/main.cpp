@@ -288,10 +288,18 @@ void showInfo()
     float color[4] = {1, 1, 1, 1};
 
     stringstream ss;
-    ss << "Aperte \"+\" para aumentar o espacamento ou \"-\" para diminuir" << ends;
+    ss << "Aperte \"+\" para aumentar o espacamento ou \"-\" para diminuir"  << ends;
+    drawString(ss.str().c_str(), 1, screenHeight-TEXT_HEIGHT, color, font);
+    ss.str("");
+    /*
+    ss << "Use o mouse para girar a camera" << ends;      
     drawString(ss.str().c_str(), 1, screenHeight-TEXT_HEIGHT, color, font);
     ss.str("");
 
+    ss << "Use Ctrl + mouse para brincar com o cubo" << ends;
+    drawString(ss.str().c_str(), 1, screenHeight-TEXT_HEIGHT, color, font);
+    ss.str("");
+    */
     // restore projection matrix
     glPopMatrix();                   // restore to previous projection matrix
 
@@ -408,6 +416,7 @@ void keyboardCB(unsigned char key, int x, int y)
     default:
         ;
     }
+    glutPostRedisplay();
 }
 
 
@@ -459,7 +468,13 @@ void mouseMotionCB(int x, int y)
     }
     if(mouseRightDown)
     {
-        cameraDistance -= (y - mouseY) * 0.2f;
+        //Colocar aqui chamada da funcao de girar as faces
+    }
+
+    if(mouseMiddleDown)
+    {
+        cameraDistance-=(y - mouseY) * 0.2f;
         mouseY = y;
     }
+
 }
