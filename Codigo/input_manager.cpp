@@ -20,47 +20,19 @@ void Input_manager::keyboardCB(unsigned char key, int x, int y)
     case 27: // ESCAPE
         exit(0);
         break;
-
     case 'd': // switch rendering modes (fill -> wire -> point)
     case 'D':
         current_renderer->change_draw_mode();
-        /*
-        drawMode = ++drawMode % 3;
-        if(drawMode == 0)        // fill mode
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_CULL_FACE);
-        }
-        else if(drawMode == 1)  // wireframe mode
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_CULL_FACE);
-        }
-        else                    // point mode
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_CULL_FACE);
-        }
-        */
         break;
-
     case 43: // tecla +
         current_model_manager->key_pressed(key,x,y);
-        //CuboMagico::espacamento+=0.15;
         break;
     case 45: //tecla -
         current_model_manager->key_pressed(key,x,y);
-        //if(CuboMagico::espacamento >= 2.15)
-        //  CuboMagico::espacamento -= 0.15;
     default:
         ;
     }
-    //glutPostRedisplay();
 }
-
 
 void Input_manager::mouseCB(int button, int state, int x, int y)
 {
@@ -103,10 +75,8 @@ void Input_manager::mouseMotionCB(int x, int y)
 {
     if(mouseLeftDown)
     {
-        current_renderer->set_camera_angle_x(x - mouseX);
-        current_renderer->set_camera_angle_y(y - mouseY);
-        //cameraAngleY += (x - mouseX);
-        //cameraAngleX += (y - mouseY);
+        current_renderer->set_camera_angle_y(x - mouseX);
+        current_renderer->set_camera_angle_x(y - mouseY);
         mouseX = x;
         mouseY = y;
     }
@@ -119,7 +89,6 @@ void Input_manager::mouseMotionCB(int x, int y)
     if(mouseMiddleDown)
     {
         current_renderer->set_camera_distance((y - mouseY) * 0.2f);
-        //cameraDistance-=(y - mouseY) * 0.2f;
         mouseY = y;
     }
 

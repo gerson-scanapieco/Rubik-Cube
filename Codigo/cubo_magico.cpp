@@ -34,7 +34,19 @@ GLubyte default_indices[]  = { 0, 1, 2,   2, 3, 0,      // front
 
   void CuboMagico::reaction_to_keyboard(unsigned char key, int x, int y){
     //TODO funcao q implementa a transformacao do cubo em caso de teclado
-
+    switch(key)
+    {
+    case 43: // tecla +
+      gap+=0.15;
+    break;
+    case 45: //tecla -
+      if(gap > 1.2)
+        gap -= 0.15;
+    break;
+    default:
+        ;
+    }
+    glutPostRedisplay();
   }
 
   void CuboMagico::reaction_to_mouse_motion(int button, int stat, int x, int y){
@@ -53,9 +65,9 @@ void CuboMagico::set_initial_translation(){
 	for(i=1;i<=3;i++){
 		for(j=1;j<=3;j++){
 			for(k=1; k<=3; k++){
-				cubos[pos].matriz_de_transformacao[12] = i * gap ;
-				cubos[pos].matriz_de_transformacao[13] = j * gap;
-				cubos[pos].matriz_de_transformacao[14] = k * gap;
+				cubos[pos].matriz_de_transformacao[12] = i ;
+				cubos[pos].matriz_de_transformacao[13] = j ;
+				cubos[pos].matriz_de_transformacao[14] = k ;
 				pos++;
 			}
 		}
@@ -74,9 +86,11 @@ void CuboMagico::draw(){
 	  glVertexPointer(3, GL_FLOAT, 0, cubos[j].vertices);
 
 	  glPushMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glMultMatrixf(cubos[j].matriz_de_transformacao);   
-	  glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubos[j].indices);
+		 glMatrixMode(GL_MODELVIEW);
+     glTranslatef(cubos[j].matriz_de_transformacao[12] *gap, cubos[j].matriz_de_transformacao[13] *gap, 
+                  cubos[j].matriz_de_transformacao[14] *gap);
+		 glMultMatrixf(cubos[j].matriz_de_transformacao);   
+	   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubos[j].indices);
 	  glPopMatrix();
 
 	  glDisableClientState(GL_VERTEX_ARRAY);

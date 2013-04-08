@@ -7,7 +7,7 @@ class Model_manager{
 
 public:
  Model_manager(){};
- void init(){};
+ void init();
  void init(CuboMagico *drawable);
  void key_pressed(unsigned char key, int x, int y);
  void mouse_click(int button, int stat, int x, int y);

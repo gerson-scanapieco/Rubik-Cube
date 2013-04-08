@@ -11,6 +11,9 @@
 #ifndef __IDRAWABLE__
   #include "IDrawable.hpp"
 #endif
+#ifndef __MATH3D__
+  #include "shared/math3d.h"
+#endif
 
 class Cubo {
 
@@ -34,9 +37,6 @@ class Cubo {
 class CuboMagico{
 
 public:
-  void reaction_to_input(unsigned char key, int x, int y);
-  void reaction_to_input(int button, int stat, int x, int y);
-  void reaction_to_input(int x, int y);
   void drawCallback();
   void setupDrawCallback();
   void set_initial_translation();
@@ -48,9 +48,11 @@ public:
   void reaction_to_click(int x, int y);
 
   CuboMagico(){
+    gap = 1.2f;
     for(int i=0; i<27;i++){
       this->cubos[i].init();
     }
+    this->set_initial_translation();
   }
 
   float gap;

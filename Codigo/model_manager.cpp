@@ -2,14 +2,13 @@
 
 CuboMagico* Model_manager::current_drawable = NULL;
 
-void init(){
-
+void Model_manager::init(){
+  CuboMagico * cubo_magico = new CuboMagico;
+  Model_manager::current_drawable = cubo_magico;
 }
 
 void Model_manager::init(CuboMagico *drawable){
   current_drawable = drawable;
-  CuboMagico * cubo_magico = new CuboMagico;
-  Model_manager::current_drawable = cubo_magico;
 }
 
 void Model_manager::key_pressed(unsigned char key, int x, int y){

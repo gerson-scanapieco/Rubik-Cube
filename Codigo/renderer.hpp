@@ -13,7 +13,7 @@ public:
  Renderer(){
   text_width = 8;      
   text_height = 13;
-  draw_mode = 0;
+  draw_mode = 0; // 0:fill, 1: wireframe, 2:points
  }
 
  void init(Model_manager *model_manager);
@@ -34,7 +34,6 @@ public:
  void set_camera_angle_y(int angle);
  void set_camera_distance(float distance);
  
-
  static Model_manager *current_model_manager;
  static int screen_width,screen_height;   
  static float camera_distance,camera_angle_x,camera_angle_y;

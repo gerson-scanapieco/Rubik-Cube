@@ -3,8 +3,8 @@
 Model_manager * Renderer::current_model_manager = NULL;
 int Renderer::screen_width = 800;
 int Renderer::screen_height = 600;
-float Renderer::camera_distance = 15.0f;
-float Renderer::camera_angle_x = 0;
+float Renderer::camera_distance = 25.0f;
+float Renderer::camera_angle_x = 7.5;
 float Renderer::camera_angle_y = 0;
 
 void Renderer::init(Model_manager *model_manager){
@@ -193,8 +193,25 @@ void Renderer::toPerspective(){
 }
 
 void Renderer::change_draw_mode(){
-
-
+    draw_mode = ++draw_mode % 3;
+        if(draw_mode == 0)        // fill mode
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_CULL_FACE);
+        }
+        else if(draw_mode == 1)  // wireframe mode
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+        }
+        else                    // point mode
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+        }
 }
 
 //=============================================================================
@@ -215,6 +232,7 @@ void Renderer::displayCB(){
 
     //TODO
     //Implementar codigo de renderizacao do cubo magico
+    current_model_manager->current_drawable->draw();
 
     // print 2D text
     float pos[4] = {-4.0f,3.5f,0,1};
