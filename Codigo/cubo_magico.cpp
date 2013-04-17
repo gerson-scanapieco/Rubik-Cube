@@ -32,32 +32,33 @@ GLubyte default_indices[]  = { 0, 1, 2,   2, 3, 0,      // front
                     20,21,22,  22,23,20 };    // back
 
 
-  void CuboMagico::reaction_to_keyboard(unsigned char key, int x, int y){
+void CuboMagico::reaction_to_keyboard(unsigned char key, int x, int y){
     //TODO funcao q implementa a transformacao do cubo em caso de teclado
     switch(key)
     {
     case 43: // tecla +
-      gap+=0.15;
+      //raise_gap();
     break;
     case 45: //tecla -
-      if(gap > 1.2)
-        gap -= 0.15;
+      //lower_gap();
     break;
+    case 'x':
+      this->rotate_face(0,0);
     default:
         ;
     }
     glutPostRedisplay();
-  }
+}
 
-  void CuboMagico::reaction_to_mouse_motion(int button, int stat, int x, int y){
+void CuboMagico::reaction_to_mouse_motion(int button, int stat, int x, int y){
     //TODO funcao q implementa a transformacao do cubo em caso de mouse motion
 
-  }
+}
 
-  void CuboMagico::reaction_to_click(int x, int y){
+void CuboMagico::reaction_to_click(int x, int y){
     //TODO funcao q implementa a transformacao do cubo em caso de mouse
 
-  }
+}
 
 void CuboMagico::set_initial_translation(){
 	int i,j,k,pos=0;
@@ -65,10 +66,9 @@ void CuboMagico::set_initial_translation(){
 	for(i=1;i<=3;i++){
 		for(j=1;j<=3;j++){
 			for(k=1; k<=3; k++){
-				cubos[pos].matriz_de_transformacao[12] = i ;
-				cubos[pos].matriz_de_transformacao[13] = j ;
-				cubos[pos].matriz_de_transformacao[14] = k ;
-				pos++;
+				cubos[i-1][j-1][k-1]->matriz_de_transformacao[12] = i * 2.2;
+				cubos[i-1][j-1][k-1]->matriz_de_transformacao[13] = j * 2.2;
+				cubos[i-1][j-1][k-1]->matriz_de_transformacao[14] = k * 2.2;
 			}
 		}
 	}
@@ -76,41 +76,116 @@ void CuboMagico::set_initial_translation(){
 
 void CuboMagico::draw(){
 
-  for(int j=0; j < 27; j++){
-	  glEnableClientState(GL_NORMAL_ARRAY);
-	  glEnableClientState(GL_COLOR_ARRAY);
-	  glEnableClientState(GL_VERTEX_ARRAY);
+  for(int i=0; i < 3; i++){
+    for(int j=0; j<3; j++){
+      for(int k=0; k<3;k++){
+    	  glEnableClientState(GL_NORMAL_ARRAY);
+    	  glEnableClientState(GL_COLOR_ARRAY);
+    	  glEnableClientState(GL_VERTEX_ARRAY);
 
-	  glNormalPointer(GL_FLOAT, 0, cubos[j].normals);
-	  glColorPointer(3, GL_FLOAT, 0, cubos[j].colors);
-	  glVertexPointer(3, GL_FLOAT, 0, cubos[j].vertices);
+    	  glNormalPointer(GL_FLOAT, 0, cubos[i][j][k]->normals);
+    	  glColorPointer(3, GL_FLOAT, 0, cubos[i][j][k]->colors);
+    	  glVertexPointer(3, GL_FLOAT, 0, cubos[i][j][k]->vertices);
 
-	  glPushMatrix();
-		 glMatrixMode(GL_MODELVIEW);
-     glTranslatef(cubos[j].matriz_de_transformacao[12] *gap, cubos[j].matriz_de_transformacao[13] *gap, 
-                  cubos[j].matriz_de_transformacao[14] *gap);
-		 glMultMatrixf(cubos[j].matriz_de_transformacao);   
-	   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubos[j].indices);
-	  glPopMatrix();
+    	  glPushMatrix();
+    		 glMatrixMode(GL_MODELVIEW);
+         if(cubos[i][j][k]->is_rotating == 1)
+          glRotatef(90,1,0,0);
+    		 glMultMatrixf(cubos[i][j][k]->matriz_de_transformacao);   
+    	   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubos[i][j][k]->indices);
+        cubos[i][j][k]->is_rotating = 0;
+    	  glPopMatrix();
 
-	  glDisableClientState(GL_VERTEX_ARRAY);
-	  glDisableClientState(GL_COLOR_ARRAY);
-	  glDisableClientState(GL_NORMAL_ARRAY);
-	}
+    	  glDisableClientState(GL_VERTEX_ARRAY);
+    	  glDisableClientState(GL_COLOR_ARRAY);
+    	  glDisableClientState(GL_NORMAL_ARRAY);
+      }
+	  }
+  }
 }
+
+//Rotaciona a matriz de forma a simular uma rotacao numa face do cubo
+void CuboMagico::rotate_face(int face, int orientation){
+          //matriz2[j][2-i] = matriz1[i][j];
+  M3DMatrix44f *temp;
+
+  if(face >=0 && face <= 3){
+
+    temp = new M3DMatrix44f;
+
+    for(int i=0;i<3;i++){
+      for(int j=0;j<3;j++){
+        cubos[face][i][j]->is_rotating = 1;
+        m3dCopyMatrix44(temp,cubos[i][j]->matriz_de_transformacao);
+        cubos[face][j][2-i] = temp[i][j];
+      }
+    }
+  }
+  else if (face >=4 && face <=6){
+    for(int i=0;i<3;i++){
+      for(int j=0;j<3;j++){
+        Cubo *cubo = cubos[i][face][j];
+        cubos[i][face][j] = cubos[i][face][2-i];
+        cubos[i][face][2-i] = cubo;
+      }
+    }
+  }
+  else if (face >=7 && face <=9){
+    for(int i=0;i<3;i++){
+      for(int j=0;j<3;j++){
+        Cubo *cubo = cubos[i][j][face];
+        cubos[i][j][face] = cubos[i][2-i][face];
+        cubos[i][2-i][face] = cubo;
+      }
+    }
+  }
+  draw_rotation(face,orientation);
+  glutPostRedisplay();
+}
+
+void CuboMagico::draw_rotation(int face, int orientation){
+  float angle;
+
+  if (face >=0 && face <=3){
+
+
+
+  }
+
+
+}
+/*
+void CuboMagico::raise_gap(){
+  gap+=0.15;
+  for(int j=0; j<27;j++){
+      //M3DMatrix44f matriz;
+      //m3dTranslationMatrix44(matriz, cubos[j].matriz_de_transformacao[12] *gap, cubos[j].matriz_de_transformacao[13] *gap, 
+      //            cubos[j].matriz_de_transformacao[14] *gap); 
+      //m3dMatrixMultiply44(cubos[j].matriz_de_transformacao,cubos[j].matriz_de_transformacao,matriz);
+    cubos[j].matriz_de_transformacao[12]+=gap;
+    cubos[j].matriz_de_transformacao[13]+=gap;
+    cubos[j].matriz_de_transformacao[14]+=gap;
+    }
+    glutPostRedisplay();
+}
+
 
 void CuboMagico::lower_gap(){
-    if(this->gap >= 2.5)
-        this-> gap -= 0.15;
+  if(gap > 1.2)
+    gap -= 0.15;
+  for(int j=0; j<27;j++){
+      M3DMatrix44f matriz;
+      m3dTranslationMatrix44(matriz, cubos[j].matriz_de_transformacao[12] *gap, cubos[j].matriz_de_transformacao[13] *gap, 
+                  cubos[j].matriz_de_transformacao[14] *gap); 
+      m3dMatrixMultiply44(cubos[j].matriz_de_transformacao,cubos[j].matriz_de_transformacao,matriz);
+    }
+    glutPostRedisplay();
 }
-
-void CuboMagico::raise_gap(){
-    this->gap+=0.15;
-}
-
+*/
 void Cubo::init(){
 	memcpy(this->indices, default_indices, sizeof(default_indices));
 	memcpy(this->vertices, default_vertices, sizeof(default_vertices));
 	memcpy(this->colors, default_colors, sizeof(default_colors));
 	memcpy(this->normals, default_normals, sizeof(default_normals));
 }
+

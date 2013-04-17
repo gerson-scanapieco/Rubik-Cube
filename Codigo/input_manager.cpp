@@ -29,6 +29,10 @@ void Input_manager::keyboardCB(unsigned char key, int x, int y)
         break;
     case 45: //tecla -
         current_model_manager->key_pressed(key,x,y);
+        break;
+    case 'x':
+        current_model_manager->key_pressed(key,x,y);
+        break;
     default:
         ;
     }

@@ -1,6 +1,6 @@
 #############MAKEFILE#################
 
-OBJS=main.o cubo_magico.o engine.o input_manager.o model_manager.o renderer.o
+OBJS=main.o cubo_magico.o engine.o input_manager.o model_manager.o renderer.o math3d.o
 CC=g++
 DEBUG=-g
 CFLAGS=-Wall -fpermissive -std=c++0x $(DEBUG)
@@ -26,8 +26,11 @@ model-manager.o: model_manager.hpp model_manager.cpp IDrawable.hpp
 renderer.o: renderer.hpp renderer.cpp model_manager.hpp
 	$(CC) $(LIBS) $(CFLAGS) -c renderer.cpp
 
-cubo-magico.o: cubo_magico.hpp cubo_magico.cpp IDrawable.hpp
+cubo-magico.o: cubo_magico.hpp cubo_magico.cpp shared/math3d.h
 	$(CC) $(LIBS) $(CFLAGS) -c cubo_magico.cpp
+
+math3d.o: shared/math3d.h shared/math3d.cpp
+	$(CC) $(LIBS) $(CFLAGS) -c shared/math3d.cpp
 
 clean:
 	rm -f *.o
