@@ -50,6 +50,7 @@ public:
   void reaction_to_click(int x, int y);
   void rotate_face(int face, int orientation);
   void draw_rotation(int face, int orientation);
+  void animation();
 
   CuboMagico(){
     gap = 1.2f;
