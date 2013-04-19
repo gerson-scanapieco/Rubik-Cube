@@ -91,11 +91,29 @@ void CuboMagico::draw(){
 
     	  glPushMatrix();
     		 glMatrixMode(GL_MODELVIEW);
+         
+         //Faces 0-2           glTranslatef(0,4.4,4.4);
          if(cubos[i][j][k]->is_rotating == 1){
           glTranslatef(0,4.4,4.4);
           glRotatef(angle,1,0,0);
           glTranslatef(0,-4.4,-4.4);
         }
+        
+        
+        //Faces 3-5
+        if(cubos[i][j][k]->is_rotating == 1){
+          glTranslatef(4.4,0,4.4);
+          glRotatef(angle,0,1,0);
+          glTranslatef(-4.4,0,-4.4);
+        }
+        
+        //Faces 6-8
+       if(cubos[i][j][k]->is_rotating == 1){
+          glTranslatef(4.4,4.4,0);
+          glRotatef(angle,0,0,1);
+          glTranslatef(-4.4,-4.4,0);
+        }
+        
         glTranslatef(cubos[i][j][k]->matriz_de_transformacao[12],cubos[i][j][k]->matriz_de_transformacao[13],
           cubos[i][j][k]->matriz_de_transformacao[14]);
     		 //glMultMatrixf(cubos[i][j][k]->matriz_de_transformacao);   
@@ -126,7 +144,7 @@ void CuboMagico::rotate_face(int face, int orientation){
   }
   //memcpy(cubos,temp,9*sizeof(Cubo*));
   }
-  else if (face >=3 && face <=4){
+  else if (face >=3 && face <=5){
     Cubo* temp [3][3][3];
     for(int i=0;i<3;i++){
       for(int j=0;j<3;j++){
@@ -135,7 +153,7 @@ void CuboMagico::rotate_face(int face, int orientation){
       }
     }
   }
-  else if (face >=5 && face <=8){
+  else if (face >=6 && face <=8){
     Cubo* temp [3][3][3];
     for(int i=0;i<3;i++){
       for(int j=0;j<3;j++){
@@ -161,7 +179,16 @@ void CuboMagico::draw_rotation(int face, int orientation){
 }
 
 void CuboMagico::animation(){
+  this->rotate_face(0,0);
+  this->rotate_face(1,0);
+  this->rotate_face(2,0);
   this->rotate_face(3,0);
+  this->rotate_face(4,0);
+  this->rotate_face(5,0);
+  this->rotate_face(6,0);
+  this->rotate_face(7,0);
+  this->rotate_face(8,0);
+
 }
 
 
