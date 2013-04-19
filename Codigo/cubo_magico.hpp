@@ -15,6 +15,7 @@
   #include "shared/math3d.h"
 #endif
 
+
 class Cubo {
 
  public:
@@ -51,6 +52,7 @@ public:
   void rotate_face(int face, int orientation);
   void draw_rotation(int face, int orientation);
   void animation();
+  void check_rotation();
 
   CuboMagico(){
     gap = 1.2f;

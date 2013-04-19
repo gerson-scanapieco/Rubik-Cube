@@ -76,7 +76,7 @@ void CuboMagico::set_initial_translation(){
 
 void CuboMagico::draw(){
 
-  if(angle > 90) angle = 0;
+  check_rotation();
 
   for(int i=0; i < 3; i++){
     for(int j=0; j<3; j++){
@@ -100,13 +100,11 @@ void CuboMagico::draw(){
           cubos[i][j][k]->matriz_de_transformacao[14]);
     		 //glMultMatrixf(cubos[i][j][k]->matriz_de_transformacao);   
     	   glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubos[i][j][k]->indices);
-        //cubos[i][j][k]->is_rotating = 0;
     	  glPopMatrix();
 
     	  glDisableClientState(GL_VERTEX_ARRAY);
     	  glDisableClientState(GL_COLOR_ARRAY);
     	  glDisableClientState(GL_NORMAL_ARRAY);
-        angle+=0.1;
       }
 	  }
   }
@@ -115,10 +113,9 @@ void CuboMagico::draw(){
 //Rotaciona a matriz de forma a simular uma rotacao numa face do cubo
 void CuboMagico::rotate_face(int face, int orientation){
           //matriz2[j][2-i] = matriz1[i][j];
-  M3DMatrix44f temp;
   int k,l;
 
-  if(face >=0 && face <= 3){
+  if(face >=0 && face <= 2){
 
   Cubo* temp [3][3][3];
   for(int i=0;i<3;i++){
@@ -127,23 +124,23 @@ void CuboMagico::rotate_face(int face, int orientation){
       temp[face][j][2-i] = cubos[face][i][j];
     }
   }
-  memcpy(cubos,temp,9*sizeof(Cubo*));
+  //memcpy(cubos,temp,9*sizeof(Cubo*));
   }
-  else if (face >=4 && face <=6){
+  else if (face >=3 && face <=4){
+    Cubo* temp [3][3][3];
     for(int i=0;i<3;i++){
       for(int j=0;j<3;j++){
-        Cubo *cubo = cubos[i][face][j];
-        cubos[i][face][j] = cubos[i][face][2-i];
-        cubos[i][face][2-i] = cubo;
+       cubos[i][face%3][j]->is_rotating = 1;
+       temp[j][face%3][2-i] = cubos[i][face%3][j];
       }
     }
   }
-  else if (face >=7 && face <=9){
+  else if (face >=5 && face <=8){
+    Cubo* temp [3][3][3];
     for(int i=0;i<3;i++){
       for(int j=0;j<3;j++){
-        Cubo *cubo = cubos[i][j][face];
-        cubos[i][j][face] = cubos[i][2-i][face];
-        cubos[i][2-i][face] = cubo;
+        cubos[i][j][face%3]->is_rotating = 1;
+        temp[j][2-i][face%3] = cubos[i][j][face%3];
       }
     }
   }
@@ -164,7 +161,7 @@ void CuboMagico::draw_rotation(int face, int orientation){
 }
 
 void CuboMagico::animation(){
-  this->rotate_face(0,0);
+  this->rotate_face(3,0);
 }
 
 
@@ -203,3 +200,20 @@ void Cubo::init(){
 	memcpy(this->normals, default_normals, sizeof(default_normals));
 }
 
+void CuboMagico::check_rotation(){
+
+  if(angle > 90){
+    angle = 0;
+
+    for(int i=0; i < 3; i++){
+      for(int j=0; j<3; j++){
+        for(int k=0; k<3;k++){
+          cubos[i][j][k]->is_rotating = 0;
+        }
+      }
+    }
+
+  }
+  else
+    angle+=2;
+}
